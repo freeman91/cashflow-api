@@ -4,7 +4,7 @@ require 'date'
 describe Api::V1::VersionsController, type: :controller do
   let(:user) { create :user }
   before(:each) do
-    request.headers['Accept'] = 'application/vnd.railsapibase.v1'
+    request.headers['Accept'] = 'application/vnd.cashflow.v1'
     sign_in_user user
   end
   after(:each) do

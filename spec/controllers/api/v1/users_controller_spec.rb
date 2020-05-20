@@ -5,7 +5,7 @@ describe Api::V1::UsersController do
   let(:user_attr) { attributes_for :user }
   before(:each) do
     ENV['SECRET_API_KEY'] = nil
-    request.headers['Accept'] = 'application/vnd.railsapibase.v1'
+    request.headers['Accept'] = 'application/vnd.cashflow.v1'
   end
 
   it 'routes correctly' do

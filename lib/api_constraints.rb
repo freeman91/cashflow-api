@@ -9,6 +9,6 @@ class ApiConstraints
       (req.respond_to?('headers') &&
        req.headers.key?('Accept') &&
        req.headers['Accept'].eql?(
-         "application/vnd.railsapibase.v#{@version}"))
+         "application/vnd.cashflow.v#{@version}"))
   end
 end

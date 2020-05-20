@@ -4,7 +4,7 @@ describe Api::V1::NotesController, type: :controller do
   let(:user) { create :user }
   let(:note) { create :note, user: user }
   before(:each) do
-    request.headers['Accept'] = 'application/vnd.railsapibase.v1'
+    request.headers['Accept'] = 'application/vnd.cashflow.v1'
     sign_in_user user
   end
 

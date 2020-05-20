@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.3.0'
+ruby '2.6.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails'
@@ -8,7 +8,7 @@ gem 'rails-i18n'
 # Use postgresql as the database for Active Record
 gem 'pg'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-# gem 'jbuilder', '~> 2.0'
+gem 'jbuilder', '~> 2.0'
 # Use Puma as the app server
 gem 'puma'
 
