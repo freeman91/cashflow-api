@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 module Api
   module V1
@@ -10,16 +10,17 @@ module Api
       end
 
       before do
-        routes.draw { get 'fake_not_found' => 'api/v1/api#fake_not_found' }
+        routes.draw { get "fake_not_found" => "api/v1/api#fake_not_found" }
       end
 
-      context 'when record not found triggered' do
+      context "when record not found triggered" do
         before { signed_get :fake_not_found, params: {} }
 
-        it 'renders error' do
-          expect(json_response['error']['message']).to eq I18n.t(
-            'errors.messages.not_found')
-          expect(json_response['error']['status']).to eq 404
+        it "renders error" do
+          expect(json_response["error"]["message"]).to eq I18n.t(
+               "errors.messages.not_found"
+             )
+          expect(json_response["error"]["status"]).to eq 404
           expect(response.status).to eq 404
         end
       end

@@ -15,7 +15,7 @@ module Api
         end
 
         def not_found
-          render_error(I18n.t('errors.messages.not_found'), :not_found)
+          render_error(I18n.t("errors.messages.not_found"), :not_found)
         end
       end
     end

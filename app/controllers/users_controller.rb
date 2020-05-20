@@ -5,9 +5,9 @@ class UsersController < ViewController
       user.confirmed_at = DateTime.current
       user.confirmation_token = nil
       user.save
-      render '/users/confirmed'
+      render "/users/confirmed"
     else
-      render 'users/invalid_confirmation'
+      render "users/invalid_confirmation"
     end
   end
 
@@ -18,9 +18,9 @@ class UsersController < ViewController
       user.reset_password_token = nil
       user.reset_password_digest = nil
       user.save
-      render '/users/reset_confirmed'
+      render "/users/reset_confirmed"
     else
-      render 'users/invalid_reset_confirmation'
+      render "users/invalid_reset_confirmation"
     end
   end
 end
