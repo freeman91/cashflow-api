@@ -5,8 +5,9 @@ module Api
 
       def create
         if correct_secret_api_key?
-          user = User.new(user_params)
+          user = User.new(email: params[:email].to_s, password: [:password].to_s)
           if user.save
+            Account.create!(user_id: user.id)
             render json: user, status: :created
           else
             render_error(user.errors.full_messages[0], :unprocessable_entity)
