@@ -4,8 +4,8 @@ rvm:
 services:
   - postgresql
 before_script:
-  - psql -c "CREATE USER railsapibase_user WITH PASSWORD 'railsapibase_pass';" -U postgres
-  - psql -c "ALTER USER railsapibase_user CREATEDB;" -U postgres
+  - psql -c "CREATE USER cashflow_user WITH PASSWORD 'cashflow_pass';" -U postgres
+  - psql -c "ALTER USER cashflow_user CREATEDB;" -U postgres
   - bin/rails db:setup
 addons:
   code_climate:

@@ -8,8 +8,8 @@ module Api
         if user
           render json: user, status: :ok
         else
-          render_error(I18n.t('authentication.error',
-                              authentication_keys: 'email'),
+          render_error(I18n.t("authentication.error",
+                              authentication_keys: "email"),
                        :unprocessable_entity)
         end
       end
