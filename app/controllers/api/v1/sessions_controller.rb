@@ -8,9 +8,7 @@ module Api
         if user
           render json: user, status: :ok
         else
-          render_error(I18n.t("authentication.error",
-                              authentication_keys: "email"),
-                       :unprocessable_entity)
+          render_error(I18n.t("authentication.error", authentication_keys: "email"), :unprocessable_entity)
         end
       end
 
@@ -22,8 +20,10 @@ module Api
       private
 
       def login_user
-        user = User.find_by_email(params[:user][:email])
-        if user && user.authenticate(params[:user][:password])
+        params.inspect
+        user = User.find_by_email(params[:email])
+        user.inspect
+        if user && user.authenticate(params[:password])
           user.regenerate_auth_token
           user
         end

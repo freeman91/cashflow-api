@@ -12,8 +12,8 @@ Rails.application.routes.draw do
     scope module: :v1, constraints: ApiConstraints.new(version: 1,
                                                        default: true) do
       get "versions/state" => "versions#state"
-      post "users/login" => "sessions#create"
-      delete "users/logout" => "sessions#destroy"
+      post "sessions" => "sessions#create"
+      delete "sessions" => "sessions#destroy"
       post "users/reset_password" => "users#reset_password"
       resources :users, only: [:create, :destroy]
       resources :expenses

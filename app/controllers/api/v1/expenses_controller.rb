@@ -4,6 +4,17 @@ module Api
 
       # before_action :set_expense, only: [:show, :edit, :update, :destroy]
 
+      def index
+        @exps = Expense.where(account_id: 1).last(10)
+        render json: {
+          status: "SUCCESS",
+          message: "Loaded new expenses",
+          expenses: @exps,
+        }, status: :ok
+      end
+
+
+
       # GET /expenses/new_expense
       def new_expense
         account = Account.first
