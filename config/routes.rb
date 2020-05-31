@@ -19,6 +19,7 @@ Rails.application.routes.draw do
       resources :expenses
 
       get "dashboard/data" => "dashboard#data"
+      get "week/data" => "week#data"
     end
   end
 
