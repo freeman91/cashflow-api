@@ -14,7 +14,7 @@ module Api
 
         weeks = cweeks(@month)
 
-        weekStats = {}
+        monthStats = {}
         weeks.each { |wk|
           wkIncTotal = @incomes.where(cweek: wk).sum(:amount)
           wkExpTotal = @expenses.where(cweek: wk).sum(:amount)
@@ -25,7 +25,7 @@ module Api
           temp["income"] = wkIncTotal
           temp["work_hours"] = wkWkhrTotal
           temp["wage"] = wkIncTotal / wkWkhrTotal
-          weekStats[wk] = temp
+          monthStats[wk] = temp
         }
 
         @expTotal = @expenses.sum(:amount)
@@ -42,7 +42,7 @@ module Api
                    month: @month,
                    year: @year,
                  },
-                 weekStats: weekStats.to_json,
+                 monthStats: monthStats.to_json,
                  netincome: @netincome,
                  expTotal: @expTotal,
                  incTotal: @incTotal,
