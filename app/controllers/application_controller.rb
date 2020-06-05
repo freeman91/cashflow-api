@@ -27,4 +27,33 @@ class ApplicationController < ActionController::API
       return 12
     end
   end
+
+  def cweeks(cwmonth)
+    case cwmonth
+    when 1
+      return [1, 2, 3, 4]
+    when 2
+      return [5, 6, 7, 8]
+    when 3
+      return [9, 10, 11, 12, 13]
+    when 4
+      return [14, 15, 16, 17]
+    when 5
+      return [18, 19, 20, 21]
+    when 6
+      return [22, 23, 24, 25, 26]
+    when 7
+      return [27, 28, 29, 30]
+    when 8
+      return [31, 32, 33, 34]
+    when 9
+      return [35, 36, 37, 38, 39]
+    when 10
+      return [40, 41, 42, 43]
+    when 11
+      return [44, 45, 46, 47]
+    when 12
+      return [48, 49, 50, 51, 52]
+    end
+  end
 end
