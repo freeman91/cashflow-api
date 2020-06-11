@@ -18,6 +18,7 @@ Rails.application.routes.draw do
       resources :users, only: [:create, :destroy]
       resources :expenses
 
+      # get data for each route
       get "dashboard/data" => "dashboard#data"
       get "week/data" => "week#data"
       get "month/data" => "month#data"

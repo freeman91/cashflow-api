@@ -1,29 +1,15 @@
 module Api
   module V1
     class ExpensesController < ApiController
-
       # before_action :set_expense, only: [:show, :edit, :update, :destroy]
-
-      def index
-        @exps = Expense.where(account_id: 1).last(10)
-        render json: {
-          status: "SUCCESS",
-          message: "Loaded new expenses",
-          expenses: @exps,
-        }, status: :ok
-      end
-
-
+      skip_before_action :auth_with_token!, only: [:create]
 
       # GET /expenses/new_expense
       def new_expense
-        account = Account.first
-        # account = current_user.accounts.first
-
+        account = current_user.accounts.first
         expense = Expense.new
         expense.account_id = account.id
         expense.bill = false
-
         expense_groups = ExpenseGroup.where(account_id: account.id).pluck(:name)
 
         render json: {
@@ -36,15 +22,12 @@ module Api
 
       # GET /expenses/new_bill
       def new_bill
-        account = Account.first
-        # account = current_user.accounts.first
+        account = current_user.accounts.first
 
         bill = Expense.new
         bill.account_id = account.id
         bill.bill = true
-
         expense_groups = ExpenseGroup.where(account_id: account.id).pluck(:name)
-
         render json: {
                  status: "SUCCESS",
                  message: "Loaded new bill template",
@@ -53,26 +36,21 @@ module Api
                }, status: :ok
       end
 
-      # GET /expenses/1/edit
-      # def edit
-      #     @account = current_user.accounts.first
-      #     @expense_groups = ExpenseGroup.where(account_id: @account.id).pluck(:name)
-      #     @card_title = "Edit Expense"
-      # end
-
       # POST /expenses
       # POST /expenses.json
       def create
         expense = Expense.new()
-        expense.account_id = params["account_id"]
-        expense.amount = params["amount"]
-        expense.group = params["group"]
-        expense.vendor = params["vendor"]
-        expense.cwday = params["cwday"]
-        expense.cweek = params["cweek"]
-        expense.cwmonth = params["cwmonth"]
-        expense.cwyear = params["cwyear"]
-        expense.date = params["date"]
+        date = params["params"]["date"]
+        expense.account_id = Account.where(user_id: User.where(auth_token: params["headers"]["Authorization"]).first.id).first.id
+        expense.amount = params["params"]["amount"]
+        expense.group = params["params"]["group"]
+        expense.vendor = params["params"]["vendor"]
+        expense.description = params["params"]["description"]
+        expense.cwday = Date.parse(date).cwday
+        expense.cweek = Date.parse(date).cweek
+        expense.cwmonth = cwmonth(Date.parse(date).cweek)
+        expense.cwyear = Date.parse(date).cwyear
+        expense.date = date[0..9]
         expense.bill = false
 
         if expense.save
