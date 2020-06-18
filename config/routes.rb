@@ -20,6 +20,7 @@ Rails.application.routes.draw do
 
       # get data for each route
       get "dashboard/data" => "dashboard#data"
+      get "expense_groups" => "expense_groups#data"
       get "week/data" => "week#data"
       get "month/data" => "month#data"
       get "year/data" => "year#data"
