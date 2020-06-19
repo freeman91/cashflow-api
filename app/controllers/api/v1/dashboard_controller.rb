@@ -26,6 +26,17 @@ module Api
                  net_income_week: @net_income_week,
                }, status: :ok
       end
+
+      def expenses
+        now = DateTime.now()
+        account = current_user.accounts.first
+        @expenses = Expense.where(account_id: account.id, bill: false).last(5).reverse
+        render json: {
+          status: "SUCCESS",
+          message: "Loaded dashboard expenses",
+          expenses: @expenses,
+        }, status: :ok
+      end
     end
   end
 end
