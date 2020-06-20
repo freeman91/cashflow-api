@@ -16,17 +16,26 @@ Rails.application.routes.draw do
       delete "sessions" => "sessions#destroy"
       post "users/reset_password" => "users#reset_password"
       resources :users, only: [:create, :destroy]
-      resources :expenses
 
-      # get data for each route
+      # routes for the page controllers
       get "dashboard/data" => "dashboard#data"
       get "dashboard/expenses" => "dashboard#expenses"
-      get "expense_groups" => "expense_groups#data"
+
       get "week/data" => "week#data"
+
       get "month/data" => "month#data"
+
       get "year/data" => "year#data"
+
       get "networth/data" => "networth#data"
+
       get "settings/data" => "settings#data"
+
+      # routes for record controllers
+      get "expense_groups" => "expense_groups#data"
+      resources :expenses, only: [:create]
+      put "expenses/update" => "expenses#update"
+      delete "expenses" => "expenses#destroy"
     end
   end
 

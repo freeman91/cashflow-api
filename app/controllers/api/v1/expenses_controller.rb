@@ -2,42 +2,41 @@ module Api
   module V1
     class ExpensesController < ApiController
       # before_action :set_expense, only: [:show, :edit, :update, :destroy]
-      skip_before_action :auth_with_token!, only: [:create]
+      skip_before_action :auth_with_token!, only: [:create, :destroy, :update]
 
       # GET /expenses/new_expense
-      def new_expense
-        account = current_user.accounts.first
-        expense = Expense.new
-        expense.account_id = account.id
-        expense.bill = false
-        expense_groups = ExpenseGroup.where(account_id: account.id).pluck(:name)
+      # def new_expense
+      #   account = current_user.accounts.first
+      #   expense = Expense.new
+      #   expense.account_id = account.id
+      #   expense.bill = false
+      #   expense_groups = ExpenseGroup.where(account_id: account.id).pluck(:name)
 
-        render json: {
-                 status: "SUCCESS",
-                 message: "Loaded new expense template",
-                 expense: expense,
-                 expense_groups: expense_groups,
-               }, status: :ok
-      end
+      #   render json: {
+      #            status: "SUCCESS",
+      #            message: "Loaded new expense template",
+      #            expense: expense,
+      #            expense_groups: expense_groups,
+      #          }, status: :ok
+      # end
 
       # GET /expenses/new_bill
-      def new_bill
-        account = current_user.accounts.first
+      # def new_bill
+      #   account = current_user.accounts.first
 
-        bill = Expense.new
-        bill.account_id = account.id
-        bill.bill = true
-        expense_groups = ExpenseGroup.where(account_id: account.id).pluck(:name)
-        render json: {
-                 status: "SUCCESS",
-                 message: "Loaded new bill template",
-                 expense: bill,
-                 expense_groups: expense_groups,
-               }, status: :ok
-      end
+      #   bill = Expense.new
+      #   bill.account_id = account.id
+      #   bill.bill = true
+      #   expense_groups = ExpenseGroup.where(account_id: account.id).pluck(:name)
+      #   render json: {
+      #            status: "SUCCESS",
+      #            message: "Loaded new bill template",
+      #            expense: bill,
+      #            expense_groups: expense_groups,
+      #          }, status: :ok
+      # end
 
       # POST /expenses
-      # POST /expenses.json
       def create
         expense = Expense.new()
         date = params["params"]["date"]
@@ -60,41 +59,51 @@ module Api
         end
       end
 
-      # PATCH/PUT /expenses/1
-      # PATCH/PUT /expenses/1.json
+      # PATCH/PUT /expenses/
       def update
-        respond_to do |format|
-          if @expense.update(expense_params)
-            @expense.cwday = Date.parse(@expense.date.to_s).cwday
-            @expense.cweek = Date.parse(@expense.date.to_s).cweek
-            @expense.cwmonth = cwmonth(@expense.cweek)
-            @expense.cwyear = Date.parse(@expense.date.to_s).cwyear
+        date = params["params"]["date"]
+        @expense = Expense.find(Integer(params["params"]["id"]))
+        amount = Float(params["params"]["amount"])
+        group = params["params"]["group"]
+        vendor = params["params"]["vendor"]
+        description = params["params"]["description"]
+        bill = params["params"]["bill"] ? true : false
+        cwday = bill ? nil : Date.parse(date).cwday
+        cweek = Date.parse(date).cweek
+        cwmonth = cwmonth(Date.parse(date).cweek)
+        cwyear = Date.parse(date).cwyear
+        date = date[0..9]
 
-            if @expense.save
-              if @expense.bill
-                format.html { redirect_to pages_month_path, notice: "Bill was successfully changed." }
-              else
-                format.html { redirect_to pages_console_path, notice: "Expense was successfully changed." }
-              end
-            else
-              format.html { render :edit }
-            end
-          else
-            format.html { render :edit }
-          end
+        @expense.update(amount: amount, group: group, vendor: vendor, description: description, bill: bill, cwday: cwday, cweek: cweek, cwmonth: cwmonth, cwyear: cwyear, date: date)
+
+        if @expense.save
+          render json: {
+            status: "SUCCESS",
+            message: "expense updated",
+          }, status: :ok
+        else
+          render json: {
+            status: "ERROR",
+            message: "update error",
+          }, status: :unprocessible_entity
         end
       end
 
       # DELETE /expenses/1
       # DELETE /expenses/1.json
       def destroy
-        @expense.destroy
-        respond_to do |format|
-          if @expense.bill
-            format.html { redirect_to pages_month_path, notice: "Bill was successfully deleted." }
-          else
-            format.html { redirect_to pages_console_path, notice: "Expense was successfully deleted." }
-          end
+        expense = Expense.destroy(params["id"])
+
+        if expense
+          render json: {
+            status: "SUCCESS",
+            message: "Expense deleted",
+          }, status: :ok
+        else
+          render json: {
+            status: "ERROR",
+            message: "Invalid id",
+          }, status: 400
         end
       end
 
