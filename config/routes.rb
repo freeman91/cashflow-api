@@ -17,25 +17,43 @@ Rails.application.routes.draw do
       post "users/reset_password" => "users#reset_password"
       resources :users, only: [:create, :destroy]
 
-      # routes for the page controllers
+      # dashboard
       get "dashboard/data" => "dashboard#data"
       get "dashboard/expenses" => "dashboard#expenses"
+      get "dashboard/incomes" => "dashboard#incomes"
+      get "dadshboard/work_hours" => "dashboard#work_hours"
 
+      # week page
       get "week/data" => "week#data"
 
+      # month page
       get "month/data" => "month#data"
 
+      # year page
       get "year/data" => "year#data"
 
+      # net worth page
       get "networth/data" => "networth#data"
 
+      # settings page
       get "settings/data" => "settings#data"
 
-      # routes for record controllers
-      get "expense_groups" => "expense_groups#data"
+      # expenses
       resources :expenses, only: [:create]
       put "expenses/update" => "expenses#update"
+      get "expense_groups" => "expense_groups#data"
       delete "expenses" => "expenses#destroy"
+
+      # incomes
+      resources :incomes, only: [:create]
+      put "incomes/update" => "incomes#update"
+      get "income_sources" => "income_sources#data"
+      delete "incomes" => "incomes#destroy"
+
+      # work_hours
+      resources :work_hours, only: [:create]
+      put "work_hours/update" => "work_hours#update"
+      delete "work_hours" => "work_hours#destroy"
     end
   end
 
