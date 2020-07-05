@@ -4,38 +4,6 @@ module Api
       # before_action :set_expense, only: [:show, :edit, :update, :destroy]
       skip_before_action :auth_with_token!, only: [:create, :destroy, :update]
 
-      # GET /expenses/new_expense
-      # def new_expense
-      #   account = current_user.accounts.first
-      #   expense = Expense.new
-      #   expense.account_id = account.id
-      #   expense.bill = false
-      #   expense_groups = ExpenseGroup.where(account_id: account.id).pluck(:name)
-
-      #   render json: {
-      #            status: "SUCCESS",
-      #            message: "Loaded new expense template",
-      #            expense: expense,
-      #            expense_groups: expense_groups,
-      #          }, status: :ok
-      # end
-
-      # GET /expenses/new_bill
-      # def new_bill
-      #   account = current_user.accounts.first
-
-      #   bill = Expense.new
-      #   bill.account_id = account.id
-      #   bill.bill = true
-      #   expense_groups = ExpenseGroup.where(account_id: account.id).pluck(:name)
-      #   render json: {
-      #            status: "SUCCESS",
-      #            message: "Loaded new bill template",
-      #            expense: bill,
-      #            expense_groups: expense_groups,
-      #          }, status: :ok
-      # end
-
       # POST /expenses
       def create
         expense = Expense.new()
