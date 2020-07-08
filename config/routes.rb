@@ -21,7 +21,7 @@ Rails.application.routes.draw do
       get "dashboard/data" => "dashboard#data"
       get "dashboard/expenses" => "dashboard#expenses"
       get "dashboard/incomes" => "dashboard#incomes"
-      get "dadshboard/work_hours" => "dashboard#work_hours"
+      get "dashboard/work_hours" => "dashboard#work_hours"
 
       # week page
       get "week/data" => "week#data"
@@ -54,6 +54,18 @@ Rails.application.routes.draw do
       resources :work_hours, only: [:create]
       put "work_hours/update" => "work_hours#update"
       delete "work_hours" => "work_hours#destroy"
+
+      # properties
+      resource :properties, only: [:create]
+      put "properties/update" => "properties#update"
+      delete "properties" => "properties#destroy"
+      get "property_sources" => "property_sources#data"
+
+      # liabilities
+      resource :liabilities, only: [:create]
+      put "liabilities/update" => "liabilities#update"
+      delete "liabilities" => "liabilities#destroy"
+      get "debt_groups" => "debt_groups#data"
     end
   end
 
