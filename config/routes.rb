@@ -28,6 +28,7 @@ Rails.application.routes.draw do
 
       # month page
       get "month/data" => "month#data"
+      get "month/bills" => "month#bills"
 
       # year page
       get "year/data" => "year#data"

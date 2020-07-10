@@ -10,7 +10,6 @@ module Api
         @expenses = Expense.where(account_id: current_user.accounts.first.id, cwyear: @year, cwmonth: @month).order(date: :asc)
         @incomes = Income.where(account_id: current_user.accounts.first.id, cwyear: @year, cwmonth: @month).order(date: :asc)
         @work_hours = WorkHour.where(account_id: current_user.accounts.first.id, cwyear: @year, cwmonth: @month).order(date: :asc)
-        @bills = @expenses.where(bill: true)
 
         weeks = cweeks(@month)
 
@@ -36,7 +35,7 @@ module Api
 
         render json: {
                  status: "SUCCESS",
-                 message: "Loaded dashboard data",
+                 message: "Loaded month data",
                  cwdate: {
                    week: @week,
                    month: @month,
@@ -47,8 +46,20 @@ module Api
                  expTotal: @expTotal,
                  incTotal: @incTotal,
                  wkhrTotal: @wkhrTotal,
-                 bills: @bills,
                }, status: :ok
+      end
+
+      def bills
+        now = DateTime.now()
+        week = now.cweek()
+        month = cwmonth(week)
+        year = now.cwyear()
+        bills = Expense.where(account_id: current_user.accounts.first.id, cwyear: year, cwmonth: month, bill: true).order(date: :asc)
+        render json: {
+          status: "SUCCESS",
+          message: "Loaded month bills",
+          bills: bills,
+        }, status: :ok
       end
     end
   end

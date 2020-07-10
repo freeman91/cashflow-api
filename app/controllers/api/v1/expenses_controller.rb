@@ -18,7 +18,7 @@ module Api
         expense.cwmonth = cwmonth(Date.parse(date).cweek)
         expense.cwyear = Date.parse(date).cwyear
         expense.date = date[0..9]
-        expense.bill = false
+        expense.bill = params["params"]["bill"] ? params["params"]["bill"] : false
 
         if expense.save
           render json: expense, status: :created
@@ -35,7 +35,7 @@ module Api
         group = params["params"]["group"]
         vendor = params["params"]["vendor"]
         description = params["params"]["description"]
-        bill = params["params"]["bill"] ? true : false
+        bill = params["params"]["bill"] ? params["params"]["bill"] : false
         cwday = bill ? nil : Date.parse(date).cwday
         cweek = Date.parse(date).cweek
         cwmonth = cwmonth(Date.parse(date).cweek)
