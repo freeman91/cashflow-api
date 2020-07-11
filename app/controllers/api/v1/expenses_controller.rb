@@ -30,7 +30,7 @@ module Api
       # PATCH/PUT /expenses/
       def update
         date = params["params"]["date"]
-        @expense = Expense.find(Integer(params["params"]["id"]))
+        expense = Expense.find(Integer(params["params"]["id"]))
         amount = Float(params["params"]["amount"])
         group = params["params"]["group"]
         vendor = params["params"]["vendor"]
@@ -42,9 +42,9 @@ module Api
         cwyear = Date.parse(date).cwyear
         date = date[0..9]
 
-        @expense.update(amount: amount, group: group, vendor: vendor, description: description, bill: bill, cwday: cwday, cweek: cweek, cwmonth: cwmonth, cwyear: cwyear, date: date)
+        expense.update(amount: amount, group: group, vendor: vendor, description: description, bill: bill, cwday: cwday, cweek: cweek, cwmonth: cwmonth, cwyear: cwyear, date: date)
 
-        if @expense.save
+        if expense.save
           render json: {
             status: "SUCCESS",
             message: "expense updated",
