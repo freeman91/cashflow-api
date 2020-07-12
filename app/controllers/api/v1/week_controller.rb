@@ -19,7 +19,7 @@ module Api
 
         render json: {
                  status: "SUCCESS",
-                 message: "Loaded dashboard data",
+                 message: "Loaded week data",
                  cwdate: {
                    week: @week,
                    month: @month,
