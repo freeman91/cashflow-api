@@ -60,7 +60,8 @@ Rails.application.routes.draw do
       resource :properties, only: [:create]
       put "properties/update" => "properties#update"
       delete "properties" => "properties#destroy"
-      get "property_sources" => "property_sources#data"
+      get "property_sources" => "property_sources#all"
+      post "properties/month" => "properties#month"
 
       # liabilities
       resource :liabilities, only: [:create]
