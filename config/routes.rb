@@ -63,11 +63,12 @@ Rails.application.routes.draw do
       get "property_sources" => "property_sources#all"
       post "properties/month" => "properties#month"
 
-      # liabilities
-      resource :liabilities, only: [:create]
-      put "liabilities/update" => "liabilities#update"
-      delete "liabilities" => "liabilities#destroy"
-      get "debt_groups" => "debt_groups#data"
+      # debts
+      resource :debts, only: [:create]
+      put "debts/update" => "debts#update"
+      delete "debts" => "debts#destroy"
+      get "debt_groups" => "debt_groups#all"
+      post "debts/month" => "debts#month"
     end
   end
 
