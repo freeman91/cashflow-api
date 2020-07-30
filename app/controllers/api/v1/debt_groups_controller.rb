@@ -1,11 +1,11 @@
 module Api
   module V1
     class DebtGroupsController < ApiController
-      skip_before_action :auth_with_token!, only: [:all]
+      skip_before_action :auth_with_token!, only: [:all, :data]
 
-      def all
+      def data
         account = current_user.accounts.first
-        groups = DebtGroup.where(account_id: account.id).pluck(:name)
+        groups = DebtGroup.where(account_id: account.id)
 
         render json: {
                  status: "SUCCESS",

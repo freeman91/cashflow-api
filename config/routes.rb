@@ -36,13 +36,9 @@ Rails.application.routes.draw do
       # net worth page
       get "networth/data" => "networth#data"
 
-      # settings page
-      get "settings/data" => "settings#data"
-
       # expenses
       resources :expenses, only: [:create]
       put "expenses/update" => "expenses#update"
-      get "expense_groups" => "expense_groups#data"
       delete "expenses" => "expenses#destroy"
 
       # incomes
@@ -60,15 +56,22 @@ Rails.application.routes.draw do
       resource :properties, only: [:create]
       put "properties/update" => "properties#update"
       delete "properties" => "properties#destroy"
-      get "property_sources" => "property_sources#all"
+      get "property_sources" => "property_sources#data"
       post "properties/month" => "properties#month"
 
       # debts
       resource :debts, only: [:create]
       put "debts/update" => "debts#update"
       delete "debts" => "debts#destroy"
-      get "debt_groups" => "debt_groups#all"
+      get "debt_groups" => "debt_groups#data"
       post "debts/month" => "debts#month"
+
+      # expense groups
+      resource :expense_groups, only: [:create]
+      get "expense_groups/all" => "expense_groups#all"
+      get "expense_groups" => "expense_groups#data"
+      post "expense_groups/update" => "expense_groups#update"
+      delete "expense_groups" => "expense_groups#destroy"
     end
   end
 
