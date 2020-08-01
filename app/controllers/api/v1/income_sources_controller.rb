@@ -61,9 +61,9 @@ module Api
       end
 
       def destroy
-        group = IncomeSource.destroy(params["id"])
+        source = IncomeSource.destroy(params["id"])
 
-        if group
+        if source
           render json: {
             status: "SUCCESS",
             message: "Income Source deleted",

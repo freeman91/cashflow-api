@@ -51,19 +51,19 @@ Rails.application.routes.draw do
       put "work_hours/update" => "work_hours#update"
       delete "work_hours" => "work_hours#destroy"
 
-      # properties
-      resource :properties, only: [:create]
-      put "properties/update" => "properties#update"
-      delete "properties" => "properties#destroy"
-      get "property_sources" => "property_sources#data"
-      post "properties/month" => "properties#month"
-
       # debts
       resource :debts, only: [:create]
       put "debts/update" => "debts#update"
       delete "debts" => "debts#destroy"
       get "debt_groups" => "debt_groups#data"
       post "debts/month" => "debts#month"
+
+      # properties
+      resource :properties, only: [:create]
+      put "properties/update" => "properties#update"
+      delete "properties" => "properties#destroy"
+      get "property_sources" => "property_sources#data"
+      post "properties/month" => "properties#month"
 
       # expense groups
       resource :expense_groups, only: [:create]
@@ -78,6 +78,20 @@ Rails.application.routes.draw do
       get "income_sources" => "income_sources#data"
       post "income_sources/update" => "income_sources#update"
       delete "income_sources" => "income_sources#destroy"
+
+      # debt groups
+      resource :debt_groups, only: [:create]
+      get "debt_groups/all" => "debt_groups#all"
+      get "debt_groups" => "debt_groups#data"
+      post "debt_groups/update" => "debt_groups#update"
+      delete "debt_groups" => "debt_groups#destroy"
+
+      # property sources
+      resource :property_sources, only: [:create]
+      get "property_sources/all" => "property_sources#all"
+      get "property_sources" => "property_sources#data"
+      post "property_sources/update" => "property_sources#update"
+      delete "property_sources" => "property_sources#destroy"
     end
   end
 
