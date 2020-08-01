@@ -44,7 +44,6 @@ Rails.application.routes.draw do
       # incomes
       resources :incomes, only: [:create]
       put "incomes/update" => "incomes#update"
-      get "income_sources" => "income_sources#data"
       delete "incomes" => "incomes#destroy"
 
       # work_hours
@@ -72,6 +71,13 @@ Rails.application.routes.draw do
       get "expense_groups" => "expense_groups#data"
       post "expense_groups/update" => "expense_groups#update"
       delete "expense_groups" => "expense_groups#destroy"
+
+      # income sources
+      resource :income_sources, only: [:create]
+      get "income_sources/all" => "income_sources#all"
+      get "income_sources" => "income_sources#data"
+      post "income_sources/update" => "income_sources#update"
+      delete "income_sources" => "income_sources#destroy"
     end
   end
 
