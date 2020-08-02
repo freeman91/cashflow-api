@@ -16,7 +16,7 @@ module Api
         @monthStats = {}
         weeks.each { |wk|
           wkIncTotal = @incomes.where(cweek: wk).sum(:amount)
-          wkExpTotal = @expenses.where(cweek: wk).sum(:amount)
+          wkExpTotal = @expenses.where(cweek: wk, bill: false).sum(:amount)
           wkWkhrTotal = @work_hours.where(cweek: wk).sum(:amount)
           temp = {}
           temp["net"] = wkIncTotal - wkExpTotal
