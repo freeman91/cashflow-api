@@ -35,11 +35,6 @@ module Api
         render json: {
                  status: "SUCCESS",
                  message: "Loaded month data",
-                 cwdate: {
-                   week: week,
-                   month: month,
-                   year: year,
-                 },
                  monthStats: monthStats.to_json,
                  netincome: netincome,
                  expTotal: expTotal,
