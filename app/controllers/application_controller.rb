@@ -53,7 +53,29 @@ class ApplicationController < ActionController::API
     when 11
       return [44, 45, 46, 47]
     when 12
-      return [48, 49, 50, 51, 52]
+      return [48, 49, 50, 51, 52, 53]
     end
+  end
+
+  def weeksInRange(start, _end)
+    startWeek = start.cweek()
+    startYear = start.cwyear()
+    endWeek = _end.cweek()
+
+    ret = [{ :week => startWeek, :month => cwmonth(startWeek), :year => startYear }]
+    currentWeek = startWeek
+    currentYear = startYear
+    while currentWeek != endWeek
+      if currentWeek == 53
+        currentWeek = 1
+        currentYear += 1
+      else
+        currentWeek += 1
+      end
+
+      ret.append({ :week => currentWeek, :month => cwmonth(currentWeek), :year => currentYear })
+    end
+
+    return ret
   end
 end
