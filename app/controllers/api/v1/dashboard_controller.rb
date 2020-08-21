@@ -3,17 +3,26 @@ module Api
     class DashboardController < ApiController
       def data
         now = DateTime.now()
+        weeks = weeksInRange(now - (28 * 4), now)
         account = current_user.accounts.first
-        net_income_year = (Income.where(account_id: account.id, cwyear: now.cwyear()).sum(:amount) - Expense.where(account_id: account.id, cwyear: now.cwyear()).sum(:amount))
-        net_income_month = (Income.where(account_id: account.id, cwyear: now.cwyear(), cwmonth: cwmonth(now.cweek())).sum(:amount) - Expense.where(account_id: account.id, cwyear: now.cwyear(), cwmonth: cwmonth(now.cweek())).sum(:amount))
-        net_income_week = (Income.where(account_id: account.id, cwyear: now.cwyear(), cweek: now.cweek()).sum(:amount) - Expense.where(account_id: account.id, cwyear: now.cwyear(), cweek: now.cweek()).sum(:amount))
+        recent_expenses, recent_incomes, recent_workHours = [], [], []
+        for week in weeks
+          recent_expenses.append({ :week => week[:week], :amount => Expense.where(account_id: account.id, cwyear: week[:year], cwmonth: week[:month], cweek: week[:week]).sum(:amount) })
+          recent_incomes.append({ :week => week[:week], :amount => Income.where(account_id: account.id, cwyear: week[:year], cwmonth: week[:month], cweek: week[:week]).sum(:amount) })
+          recent_workHours.append({ :week => week[:week], :amount => WorkHour.where(account_id: account.id, cwyear: week[:year], cwmonth: week[:month], cweek: week[:week]).sum(:amount) })
+        end
+
+        net_income_year = Income.where(account_id: account.id, cwyear: now.cwyear()).sum(:amount) - Expense.where(account_id: account.id, cwyear: now.cwyear()).sum(:amount)
+        net_income_month = Income.where(account_id: account.id, cwyear: now.cwyear(), cwmonth: cwmonth(now.cweek())).sum(:amount) - Expense.where(account_id: account.id, cwyear: now.cwyear(), cwmonth: cwmonth(now.cweek())).sum(:amount)
 
         render json: {
                  status: "SUCCESS",
                  message: "Loaded dashboard data",
                  net_income_year: net_income_year,
                  net_income_month: net_income_month,
-                 net_income_week: net_income_week,
+                 expenses: recent_expenses,
+                 incomes: recent_incomes,
+                 workHours: recent_workHours,
                }, status: :ok
       end
 
