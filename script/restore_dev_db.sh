@@ -39,7 +39,7 @@ psql -lqt | cut -d \| -f 1 | grep -qw $DB
 
 # if dev db does exits, drop it
 if [[ $? -eq 0 ]]; then
-    echo -e "\t${yellow}=> Dropping CashCode development database:${endColor}"
+    echo -e "\t${yellow}=> Dropping cashflow development database:${endColor}"
     dropdb $DB
     if [[ $? -gt 0 ]]; then
         echo -en ""
@@ -49,7 +49,7 @@ if [[ $? -eq 0 ]]; then
 fi
 
 # recreate db
-echo -e "\t${yellow}=> Recreating CashCode development database:${endColor}"
+echo -e "\t${yellow}=> Recreating cashflow development database:${endColor}"
 createdb $DB
 if [[ $? -gt 0 ]]; then
     echo -e "${red}\t${cross}Error creating the database${endColor}"
