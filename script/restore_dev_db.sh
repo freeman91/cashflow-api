@@ -12,14 +12,20 @@ cross="✘"
 DB="cashflow_development"
 date=$(date +%Y%m%d)
 
-echo -e "${yellow}\tShutting down cashflow servers${endColor}"
-# kill the front end server
-servePID=$(ps -c | grep node | xargs)
-servePID=$(echo $servePID | egrep -o "^[0-9]*\s")
-kill -9 $(echo $servePID)
 
-# kill the backend server
-kill -9 $(cat tmp/pids/server.pid)
+servePID=$(ps -c | grep node | xargs)
+if [[ ${#servePID} -gt 0 ]]; then
+    # if the node server is running kill it
+    echo -e "${yellow}\tShutting down cashflow node server${endColor}"
+    servePID=$(echo $servePID | egrep -o "^[0-9]*\s")
+    kill -9 $(echo $servePID)
+fi
+
+if [[ -f 'tmp/pids/server.pid' ]]; then
+    echo -e "${yellow}\tShutting down cashflow rails server${endColor}"
+    # if the rails server is running kill it
+    kill -9 $(cat tmp/pids/server.pid)
+fi
 
 echo -en "\t${yellow}=> Retrieving production db snapshot:\n${endColor}"
 ssh admin@192.168.0.42 'bash -s' << 'ENDSSH'
