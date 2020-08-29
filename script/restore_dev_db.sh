@@ -23,7 +23,7 @@ kill -9 $(cat tmp/pids/server.pid)
 
 echo -en "\t${yellow}=> Retrieving production db snapshot:\n${endColor}"
 ssh admin@192.168.0.42 'bash -s' << 'ENDSSH'
-scp postgres/backups/cashflow_jupiter_$(date +%Y%m%d).bak addisonfreeman@192.168.2.20:/tmp/
+scp postgres/backups/cashflow_jupiter_$(date +%Y%m%d).bak addisonfreeman@192.168.0.20:/tmp/
 ENDSSH
 
 # Check to see if backup file was created
