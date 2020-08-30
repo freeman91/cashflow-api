@@ -13,6 +13,10 @@ DB="cashflow_development"
 date=$(date +%Y%m%d)
 
 zsh script/kill_servers.sh
+if [[ $? -gt 0 ]]; then
+    echo -e "${red}\t${cross}Error killing the servers${endColor}"
+    exit 1
+fi
 
 echo -en "\t${yellow}=> Retrieving production db snapshot:\n${endColor}"
 ssh admin@192.168.0.42 'bash -s' << 'ENDSSH'
