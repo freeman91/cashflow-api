@@ -12,20 +12,7 @@ cross="✘"
 DB="cashflow_development"
 date=$(date +%Y%m%d)
 
-
-servePID=$(ps -c | grep node | xargs)
-if [[ ${#servePID} -gt 0 ]]; then
-    # if the node server is running kill it
-    echo -e "${yellow}\tShutting down cashflow node server${endColor}"
-    servePID=$(echo $servePID | egrep -o "^[0-9]*\s")
-    kill -9 $(echo $servePID)
-fi
-
-if [[ -f 'tmp/pids/server.pid' ]]; then
-    echo -e "${yellow}\tShutting down cashflow rails server${endColor}"
-    # if the rails server is running kill it
-    kill -9 $(cat tmp/pids/server.pid)
-fi
+zsh script/kill_servers.sh
 
 echo -en "\t${yellow}=> Retrieving production db snapshot:\n${endColor}"
 ssh admin@192.168.0.42 'bash -s' << 'ENDSSH'
@@ -34,9 +21,9 @@ ENDSSH
 
 # Check to see if backup file was created
 if [[ -f '/tmp/cashflow_jupiter_'$(date +%Y%m%d)'.bak' ]]; then
-    echo -e "\t${green}=>cashflow jupiter backup fetched${endColor}"
+    echo -e "\t${green}=> backup fetched from jupiter${endColor}"
 else
-  echo -e "${red}\t${cross} Error fetching latest jupiter backup${endColor}"
+    echo -e "${red}\t${cross} Error fetching latest jupiter backup${endColor}"
     exit 1
 fi
 
