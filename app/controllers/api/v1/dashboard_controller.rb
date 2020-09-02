@@ -5,24 +5,20 @@ module Api
         now = DateTime.now()
         weeks = weeksInRange(now - (28 * 2), now)
         account = current_user.accounts.first
-        recent_expenses, recent_incomes, recent_workHours = [], [], []
+        recent_expenses = []
+        recent_incomes_total, recent_workHours_total = 0, 0
         for week in weeks
           recent_expenses.append(Expense.where(account_id: account.id, cwyear: week[:year], cwmonth: week[:month], cweek: week[:week]).pluck(:amount, :date))
-          recent_incomes.append(Income.where(account_id: account.id, cwyear: week[:year], cwmonth: week[:month], cweek: week[:week]).pluck(:amount, :date))
-          recent_workHours.append(WorkHour.where(account_id: account.id, cwyear: week[:year], cwmonth: week[:month], cweek: week[:week]).pluck(:amount, :date))
+          recent_incomes_total += Income.where(account_id: account.id, cwyear: week[:year], cwmonth: week[:month], cweek: week[:week]).sum(:amount)
+          recent_workHours_total += WorkHour.where(account_id: account.id, cwyear: week[:year], cwmonth: week[:month], cweek: week[:week]).sum(:amount)
         end
-
-        net_income_year = Income.where(account_id: account.id, cwyear: now.cwyear()).sum(:amount) - Expense.where(account_id: account.id, cwyear: now.cwyear()).sum(:amount)
-        net_income_month = Income.where(account_id: account.id, cwyear: now.cwyear(), cwmonth: cwmonth(now.cweek())).sum(:amount) - Expense.where(account_id: account.id, cwyear: now.cwyear(), cwmonth: cwmonth(now.cweek())).sum(:amount)
 
         render json: {
                  status: "SUCCESS",
                  message: "Loaded dashboard data",
-                 net_income_year: net_income_year,
-                 net_income_month: net_income_month,
                  expenses: recent_expenses,
-                 incomes: recent_incomes,
-                 workHours: recent_workHours,
+                 incomeTotal: recent_incomes_total,
+                 workHourTotal: recent_workHours_total,
                }, status: :ok
       end
 
