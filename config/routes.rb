@@ -29,6 +29,7 @@ Rails.application.routes.draw do
       # month page
       get "month/data" => "month#data"
       get "month/bills" => "month#bills"
+      get "month/pie-chart" => "month#pie_chart"
 
       # year page
       get "year/data" => "year#data"
