@@ -7,7 +7,7 @@ module Api
       # GET /expense_groups
       def data
         account = current_user.accounts.first
-        expense_groups = ExpenseGroup.where(account_id: account.id).pluck(:name)
+        expense_groups = ExpenseGroup.where(account_id: account.id).order("name ASC").pluck(:name)
 
         render json: {
                  status: "SUCCESS",

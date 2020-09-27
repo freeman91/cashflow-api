@@ -5,7 +5,7 @@ module Api
 
       def data
         account = current_user.accounts.first
-        groups = DebtGroup.where(account_id: account.id).pluck(:name)
+        groups = DebtGroup.where(account_id: account.id).order("name ASC").pluck(:name)
 
         render json: {
                  status: "SUCCESS",
