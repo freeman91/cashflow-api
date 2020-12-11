@@ -6,9 +6,9 @@ module Api
       def data
         year = params['year']
 
-        expenses = Expense.where(account_id: @current_user.accounts.first.id, cwyear: year).order(date: :asc)
-        incomes = Income.where(account_id: @current_user.accounts.first.id, cwyear: year).order(date: :asc)
-        work_hours = WorkHour.where(account_id: @current_user.accounts.first.id, cwyear: year).order(date: :asc)
+        expenses = Expense.where(account_id: current_user.accounts.first.id, cwyear: year).order(date: :asc)
+        incomes = Income.where(account_id: current_user.accounts.first.id, cwyear: year).order(date: :asc)
+        work_hours = WorkHour.where(account_id: current_user.accounts.first.id, cwyear: year).order(date: :asc)
 
         yearStats = {}
         months = (1..12).to_a

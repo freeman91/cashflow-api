@@ -8,7 +8,7 @@ module Api
 
       # GET /income_sources
       def data
-        account = @current_user.accounts.first
+        account = current_user.accounts.first
         income_sources = IncomeSource.where(account_id: account.id).order('name ASC').pluck(:name)
 
         render json: {
@@ -19,7 +19,7 @@ module Api
       end
 
       def all
-        account = @current_user.accounts.first
+        account = current_user.accounts.first
         income_sources = IncomeSource.where(account_id: account.id)
 
         render json: {

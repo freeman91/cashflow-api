@@ -6,7 +6,7 @@ module Api
       skip_before_action :auth_with_token!, only: %i[create data all update destroy]
 
       def data
-        account = @current_user.accounts.first
+        account = current_user.accounts.first
         groups = DebtGroup.where(account_id: account.id).order('name ASC').pluck(:name)
 
         render json: {
@@ -17,7 +17,7 @@ module Api
       end
 
       def all
-        account = @current_user.accounts.first
+        account = current_user.accounts.first
         groups = DebtGroup.where(account_id: account.id)
 
         render json: {

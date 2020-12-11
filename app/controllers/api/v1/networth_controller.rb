@@ -4,7 +4,7 @@ module Api
   module V1
     class NetworthController < ApiController
       def data
-        account = @current_user.accounts.first.id
+        account = current_user.accounts.first.id
 
         week = Integer(params['week'])
         year = Integer(params['year'])

@@ -7,7 +7,7 @@ module Api
         week = Integer(params['week'])
         year = Integer(params['year'])
         month = cwmonth(week)
-        account_id = @current_user.accounts.first.id
+        account_id = current_user.accounts.first.id
 
         expenses = Expense.where(account_id: account_id, cwyear: year, cwmonth: month).order(date: :asc)
         incomes = Income.where(account_id: account_id, cwyear: year, cwmonth: month).order(date: :asc)
@@ -50,7 +50,7 @@ module Api
         week = Integer(params['week'])
         year = Integer(params['year'])
         month = cwmonth(week)
-        bills = Expense.where(account_id: @current_user.accounts.first.id, cwyear: year, cwmonth: month, bill: true).order(date: :asc)
+        bills = Expense.where(account_id: current_user.accounts.first.id, cwyear: year, cwmonth: month, bill: true).order(date: :asc)
         render json: {
           status: 'SUCCESS',
           message: 'Loaded month bills',
@@ -63,7 +63,7 @@ module Api
         endDate = params['endDate']
         groupSums = {}
 
-        expenses = Expense.where(account_id: @current_user.accounts.first.id, date: startDate..endDate)
+        expenses = Expense.where(account_id: current_user.accounts.first.id, date: startDate..endDate)
         groups = expenses.pluck('group').uniq
 
         groups.each { |group| groupSums[group] = expenses.where(group: group).sum(:amount) }

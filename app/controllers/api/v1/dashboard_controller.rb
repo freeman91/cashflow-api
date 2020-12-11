@@ -6,7 +6,7 @@ module Api
       def data
         now = DateTime.now()
         weeks = weeksInRange(now - (28 * 2), now)
-        account = @current_user.accounts.first
+        account = current_user.accounts.first
         recent_expenses = []
         recent_incomes_total = 0
         recent_workHours_total = 0
@@ -27,7 +27,7 @@ module Api
 
       def expenses
         now = DateTime.now()
-        account = @current_user.accounts.first
+        account = current_user.accounts.first
         expenses = Expense.where(account_id: account.id, bill: false).last(5).reverse
         render json: {
           status: 'SUCCESS',
@@ -38,7 +38,7 @@ module Api
 
       def incomes
         now = DateTime.now()
-        account = @current_user.accounts.first
+        account = current_user.accounts.first
         incomes = Income.where(account_id: account.id).last(5).reverse
         render json: {
           status: 'SUCCESS',
@@ -49,7 +49,7 @@ module Api
 
       def work_hours
         now = DateTime.now()
-        account = @current_user.accounts.first
+        account = current_user.accounts.first
         work_hours = WorkHour.where(account_id: account.id).last(5).reverse
         render json: {
           status: 'SUCCESS',

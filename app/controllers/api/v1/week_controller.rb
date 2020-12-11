@@ -8,9 +8,9 @@ module Api
         year = Integer(params['year'])
         month = cwmonth(week)
 
-        expenses = Expense.where(account_id: @current_user.accounts.first.id, cwyear: year, cweek: week, bill: false).order(date: :asc)
-        incomes = Income.where(account_id: @current_user.accounts.first.id, cwyear: year, cweek: week).order(date: :asc)
-        work_hours = WorkHour.where(account_id: @current_user.accounts.first.id, cwyear: year, cweek: week).order(date: :asc)
+        expenses = Expense.where(account_id: current_user.accounts.first.id, cwyear: year, cweek: week, bill: false).order(date: :asc)
+        incomes = Income.where(account_id: current_user.accounts.first.id, cwyear: year, cweek: week).order(date: :asc)
+        work_hours = WorkHour.where(account_id: current_user.accounts.first.id, cwyear: year, cweek: week).order(date: :asc)
 
         expTotal = expenses.sum(:amount)
         incTotal = incomes.sum(:amount)
