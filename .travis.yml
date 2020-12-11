@@ -5,6 +5,7 @@ services:
   - postgresql
 before_script:
   - gem install -v 1.17.2 bundler --no-rdoc --no-ri
+  - bundle _1.17.2_ install
   - psql -c "CREATE USER cashflow_user WITH PASSWORD 'cashflow_pass';" -U postgres
   - psql -c "ALTER USER cashflow_user CREATEDB;" -U postgres
   - bin/rails db:setup
