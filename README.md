@@ -1,11 +1,12 @@
 ## Dev Env setup
 
-### start postgresql server if it isn't up and running  
-```
-$ pg_ctl -D /usr/local/var/postgres start
+```sh
+brew install postgresql
+sudo brew services start postgres
+pg_ctl -D /usr/local/var/postgres start
 ```
 
-### start mailcatcher server  
+### start mailcatcher server http://127.0.0.1:1080/ 
 ```
 $ mailcatcher
 ```
@@ -21,18 +22,20 @@ $ rails s -p 3001
 Clone repo then:
 ```
 # install rails gems 
-$ bundle install
+bundle install
 
 # create postgres user if it doesn't exist
-$ psql
+psql
 admin=# CREATE USER cashflow_user WITH PASSWORD 'cashflow_password';
 admin=# ALTER ROLE cashflow_user CREATEROLE CREATEDB;
 
 # create cashflow db
-$ rails db:create
+rails db:create
+rails db:migrate
 
 # restore db from a backup
-$ psql cashflow_development < cashflow_backup_xxx.bak
+psql cashflow_development < cashflow_backup_xxx.bak
 
 # spin up the backend server
-$ rails s -p 3001 -d --binding=0.0.0.0
+rails s -p 3001 -d --binding=0.0.0.0
+```

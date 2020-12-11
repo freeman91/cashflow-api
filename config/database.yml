@@ -6,6 +6,8 @@ default: &default
 
 development:
   <<: *default
+  host: localhost
+  port: 5432
   database: cashflow_development
   username: cashflow_user
   password: cashflow_pass

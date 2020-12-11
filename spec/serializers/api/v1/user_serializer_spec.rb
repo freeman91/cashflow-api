@@ -1,11 +1,13 @@
-require "spec_helper"
+# frozen_string_literal: true
+
+require 'spec_helper'
 
 RSpec.describe Api::V1::UserSerializer do
-  describe "User json serialization" do
+  describe 'User json serialization' do
     let(:user) { build :user }
     let(:json) { Api::V1::UserSerializer.new(user).serializable_hash }
 
-    it "renders json correctly" do
+    it 'renders json correctly' do
       expect(json[:email]).to eq user.email
       expect(json.key?(:auth_token)).to be true
       expect(json.key?(:id)).to be false

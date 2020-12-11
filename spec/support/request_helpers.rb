@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Requests
   module JsonHelpers
     def json_response
@@ -37,12 +39,13 @@ module Requests
     private
 
     def sign_request
-      return unless @request.headers["Authorization"].blank?
+      return unless @request.headers['Authorization'].blank?
+
       authentication_user(current_user)
     end
 
     def authentication_user(current_user)
-      request.headers["Authorization"] = current_user.auth_token
+      request.headers['Authorization'] = current_user.auth_token
     end
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApiConstraints
   def initialize(options)
     @version = options[:version]
@@ -6,9 +8,9 @@ class ApiConstraints
 
   def matches?(req)
     @default ||
-      (req.respond_to?("headers") &&
-       req.headers.key?("Accept") &&
-       req.headers["Accept"].eql?(
+      (req.respond_to?('headers') &&
+       req.headers.key?('Accept') &&
+       req.headers['Accept'].eql?(
          "application/vnd.cashflow.v#{@version}"
        ))
   end

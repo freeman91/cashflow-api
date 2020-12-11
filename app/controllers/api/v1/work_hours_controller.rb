@@ -1,15 +1,17 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class WorkHoursController < ApiController
-      skip_before_action :auth_with_token!, only: [:create, :destroy, :update]
+      skip_before_action :auth_with_token!, only: %i[create destroy update]
 
       # POST /workHours
       def create
-        workHour = WorkHour.new()
-        date = params["params"]["date"]
-        workHour.account_id = Account.where(user_id: User.where(auth_token: params["headers"]["Authorization"]).first.id).first.id
-        workHour.amount = params["params"]["amount"]
-        workHour.source = params["params"]["source"]
+        workHour = WorkHour.new
+        date = params['params']['date']
+        workHour.account_id = Account.where(user_id: User.where(auth_token: params['headers']['Authorization']).first.id).first.id
+        workHour.amount = params['params']['amount']
+        workHour.source = params['params']['source']
         workHour.cwday = Date.parse(date).cwday
         workHour.cweek = Date.parse(date).cweek
         workHour.cwmonth = cwmonth(Date.parse(date).cweek)
@@ -25,11 +27,11 @@ module Api
 
       # PATCH/PUT /workHours/
       def update
-        date = params["params"]["date"]
-        p = params["params"]["id"]
-        workHour = WorkHour.find(Integer(params["params"]["id"]))
-        amount = Float(params["params"]["amount"])
-        source = params["params"]["source"]
+        date = params['params']['date']
+        p = params['params']['id']
+        workHour = WorkHour.find(Integer(params['params']['id']))
+        amount = Float(params['params']['amount'])
+        source = params['params']['source']
         cwday = Date.parse(date).cwday
         cweek = Date.parse(date).cweek
         cwmonth = cwmonth(Date.parse(date).cweek)
@@ -40,13 +42,13 @@ module Api
 
         if workHour.save
           render json: {
-            status: "SUCCESS",
-            message: "workHour updated",
+            status: 'SUCCESS',
+            message: 'workHour updated'
           }, status: :ok
         else
           render json: {
-            status: "ERROR",
-            message: "update error",
+            status: 'ERROR',
+            message: 'update error'
           }, status: :unprocessible_entity
         end
       end
@@ -54,17 +56,17 @@ module Api
       # DELETE /workHours/1
       # DELETE /workHours/1.json
       def destroy
-        workHour = WorkHour.destroy(params["id"])
+        workHour = WorkHour.destroy(params['id'])
 
         if workHour
           render json: {
-            status: "SUCCESS",
-            message: "WorkHour deleted",
+            status: 'SUCCESS',
+            message: 'WorkHour deleted'
           }, status: :ok
         else
           render json: {
-            status: "ERROR",
-            message: "Invalid id",
+            status: 'ERROR',
+            message: 'Invalid id'
           }, status: 400
         end
       end

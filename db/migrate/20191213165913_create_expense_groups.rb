@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateExpenseGroups < ActiveRecord::Migration[5.1]
   def change
     create_table :expense_groups do |t|

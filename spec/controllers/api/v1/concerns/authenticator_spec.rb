@@ -1,4 +1,6 @@
-require "spec_helper"
+# frozen_string_literal: true
+
+require 'spec_helper'
 
 module Api
   module V1
@@ -11,18 +13,18 @@ module Api
 
       before do
         routes.draw do
-          get "fake_current_user" => "api/v1/api#fake_current_user"
+          get 'fake_current_user' => 'api/v1/api#fake_current_user'
         end
       end
 
-      context "when correctly authenticated" do
+      context 'when correctly authenticated' do
         before { signed_get :fake_current_user, params: {} }
 
-        it { expect(json_response["email"]).to_not be_nil }
+        it { expect(json_response['email']).to_not be_nil }
         it { expect(response.status).to eq 200 }
       end
 
-      context "when not authenticated" do
+      context 'when not authenticated' do
         before { get :fake_current_user, params: {} }
 
         it { expect(response.status).to eq 401 }

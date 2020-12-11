@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     module Concerns
@@ -15,7 +17,7 @@ module Api
         end
 
         def not_found
-          render_error(I18n.t("errors.messages.not_found"), :not_found)
+          render_error(I18n.t('errors.messages.not_found'), :not_found)
         end
       end
     end

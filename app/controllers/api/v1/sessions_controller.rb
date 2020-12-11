@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class SessionsController < ApiController
@@ -8,12 +10,12 @@ module Api
         if user
           render json: user, status: :ok
         else
-          render_error(I18n.t("authentication.error", authentication_keys: "email"), :unprocessable_entity)
+          render_error(I18n.t('authentication.error', authentication_keys: 'email'), :unprocessable_entity)
         end
       end
 
       def destroy
-        current_user.regenerate_auth_token
+        @current_user.regenerate_auth_token
         head :no_content
       end
 
@@ -23,7 +25,7 @@ module Api
         params.inspect
         user = User.find_by_email(params[:email])
         user.inspect
-        if user && user.authenticate(params[:password])
+        if user&.authenticate(params[:password])
           user.regenerate_auth_token
           user
         end

@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class UsersController < ApiController
-      skip_before_action :auth_with_token!, only: [:create, :reset_password]
+      skip_before_action :auth_with_token!, only: %i[create reset_password]
 
       def create
         if correct_secret_api_key?
@@ -16,8 +18,8 @@ module Api
       end
 
       def destroy
-        current_user.notes.destroy_all
-        current_user.destroy
+        @current_user.notes.destroy_all
+        @current_user.destroy
         head :no_content
       end
 
@@ -28,7 +30,7 @@ module Api
                                   user_params[:new_password_confirmation])
         else
           user = User.new(user_params)
-          user.password = "12345678"
+          user.password = '12345678'
         end
         reset_password_output(user)
       end
@@ -41,7 +43,7 @@ module Api
       end
 
       def correct_secret_api_key?
-        if request.headers["Authorization"] == ENV["SECRET_API_KEY"]
+        if request.headers['Authorization'] == ENV['SECRET_API_KEY']
           true
         else
           head :unauthorized
@@ -51,7 +53,7 @@ module Api
 
       def reset_password_output(user)
         if user.valid?
-          render json: { message: I18n.t("reset_password.sent") },
+          render json: { message: I18n.t('reset_password.sent') },
                  status: :accepted
         else
           render_error(user.errors.full_messages[0], :unprocessable_entity)

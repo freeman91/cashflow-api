@@ -1,28 +1,30 @@
-require "date"
+# frozen_string_literal: true
 
-start1 = "2019-01-01"
-end1 = "2019-12-31"
-start2 = "2020-01-01"
-end2 = "2020-09-26"
+require 'date'
+
+start1 = '2019-01-01'
+end1 = '2019-12-31'
+start2 = '2020-01-01'
+end2 = '2020-09-26'
 
 def days_in_range(start_day, end_day)
-  return (Date.strptime(end_day) - Date.strptime(start_day)).to_i
+  (Date.strptime(end_day) - Date.strptime(start_day)).to_i
 end
 
 def fetch_expense_total_group(group, start_day, end_day)
-  return Expense.where(group: group, date: start_day..end_day).sum(:amount)
+  Expense.where(group: group, date: start_day..end_day).sum(:amount)
 end
 
 def fetch_expense_total(start_day, end_day)
-  return Expense.where(date: start_day..end_day).sum(:amount)
+  Expense.where(date: start_day..end_day).sum(:amount)
 end
 
 def sum_each_expense_group_in_range(account_id, start_day, end_day)
   sums = {}
   expenses = Expense.where(account_id: account_id, date: start_day..end_day)
   groups = expenses.pluck(:group).uniq
-  groups.sort.each { |group| sums[group] = (expenses.where(group: group).sum(:amount)).round(2) }
-  return sums
+  groups.sort.each { |group| sums[group] = expenses.where(group: group).sum(:amount).round(2) }
+  sums
 end
 
 # sums = sum_each_expense_group_in_range(1, start1, end1)

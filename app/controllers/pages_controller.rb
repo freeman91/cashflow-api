@@ -1,7 +1,7 @@
-class PagesController < ViewController
-  def privacy
-  end
+# frozen_string_literal: true
 
-  def terms
-  end
+class PagesController < ViewController
+  def privacy; end
+
+  def terms; end
 end
