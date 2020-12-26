@@ -6,22 +6,24 @@ sudo brew services start postgres
 pg_ctl -D /usr/local/var/postgres start
 ```
 
-### start mailcatcher server http://127.0.0.1:1080/ 
+### start mailcatcher server http://127.0.0.1:1080/
+
 ```
 $ mailcatcher
 ```
 
 ## spin up the backend
-```
-$ rails s -p 3001
-```
 
+```
+rails s -p 3001
+```
 
 ## Jupiter deployment
 
 Clone repo then:
+
 ```
-# install rails gems 
+# install rails gems
 bundle install
 
 # create postgres user if it doesn't exist
