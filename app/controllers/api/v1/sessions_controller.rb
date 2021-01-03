@@ -10,12 +10,11 @@ module Api
         if user
           render json: user, status: :ok
         else
-          render_error(I18n.t('authentication.error', authentication_keys: 'email'), :unprocessable_entity)
+          render_error(I18n.t("authentication.error", authentication_keys: "email"), :unprocessable_entity)
         end
       end
 
-      def destroy
-        current_user.regenerate_auth_token
+      def valid_token
         head :no_content
       end
 

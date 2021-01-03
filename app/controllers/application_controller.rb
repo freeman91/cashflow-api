@@ -25,7 +25,7 @@ class ApplicationController < ActionController::API
       10
     when 44..47
       11
-    when 48..52
+    when 48..53
       12
     end
   end
