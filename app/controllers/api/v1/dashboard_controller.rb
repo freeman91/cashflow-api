@@ -3,29 +3,36 @@
 module Api
   module V1
     class DashboardController < ApiController
-      def data
+      def expense_sum
         now = DateTime.now()
-        account = current_user.accounts.first
-        # expenseTotals = []
-        # incomeTotals = []
-
-        # for month in 1..(now.month)
-        #   expenseTotals.append(Expense.where(account_id: account.id, cwyear: now.year, cwmonth: month).sum(:amount))
-        #   incomeTotals.append(Income.where(account_id: account.id, cwyear: now.year, cwmonth: month).sum(:amount))
-        # end
-
-        expense_sum = Expense.where(account_id: account.id, date: Date.new(now.year, 1, 1)..Date.today).sum(:amount)
-        income_sum = Income.where(account_id: account.id, date: Date.new(now.year, 1, 1)..Date.today).sum(:amount)
-        work_hour_sum = WorkHour.where(account_id: account.id, date: Date.new(now.year, 1, 1)..Date.today).sum(:amount)
+        expense_sum = Expense.where(account_id: current_user.accounts.first, date: Date.new(now.year, 1, 1)..Date.today).sum(:amount)
 
         render json: {
           status: "SUCCESS",
-          message: "Loaded dashboard data",
+          message: "Loaded expense sum",
           expense_sum: expense_sum,
+        }, status: :ok
+      end
+
+      def income_sum
+        now = DateTime.now()
+        income_sum = Income.where(account_id: current_user.accounts.first, date: Date.new(now.year, 1, 1)..Date.today).sum(:amount)
+
+        render json: {
+          status: "SUCCESS",
+          message: "Loaded income sum",
           income_sum: income_sum,
+        }, status: :ok
+      end
+
+      def work_hour_sum
+        now = DateTime.now()
+        work_hour_sum = WorkHour.where(account_id: current_user.accounts.first, date: Date.new(now.year, 1, 1)..Date.today).sum(:amount)
+
+        render json: {
+          status: "SUCCESS",
+          message: "Loaded work hour sum",
           work_hour_sum: work_hour_sum,
-        # expenseTotals: expenseTotals,
-        # incomeTotals: incomeTotals,
         }, status: :ok
       end
 

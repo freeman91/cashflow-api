@@ -5,14 +5,26 @@ module Api
     class IncomesController < ApiController
       skip_before_action :auth_with_token!, only: %i[create destroy update]
 
+      def month
+        month = Integer(params["month"])
+        year = Integer(params["year"])
+        incomes = Income.where(account_id: current_user.accounts.first.id, date: Date.new(year, month, 1)..Date.new(year, month, -1)).order(date: :asc)
+
+        render json: {
+          status: "SUCCESS",
+          message: "Loaded month incomes",
+          incomes: incomes,
+        }, status: :ok
+      end
+
       # POST /incomes
       def create
         income = Income.new
-        date = params['params']['date']
-        income.account_id = Account.where(user_id: User.where(auth_token: params['headers']['Authorization']).first.id).first.id
-        income.amount = params['params']['amount']
-        income.source = params['params']['source']
-        income.description = params['params']['description']
+        date = params["params"]["date"]
+        income.account_id = Account.where(user_id: User.where(auth_token: params["headers"]["Authorization"]).first.id).first.id
+        income.amount = params["params"]["amount"]
+        income.source = params["params"]["source"]
+        income.description = params["params"]["description"]
         income.cwday = Date.parse(date).cwday
         income.cweek = Date.parse(date).cweek
         income.cwmonth = cwmonth(Date.parse(date).cweek)
@@ -28,11 +40,11 @@ module Api
 
       # PATCH/PUT /incomes/
       def update
-        date = params['params']['date']
-        income = Income.find(Integer(params['params']['id']))
-        amount = Float(params['params']['amount'])
-        source = params['params']['source']
-        description = params['params']['description']
+        date = params["params"]["date"]
+        income = Income.find(Integer(params["params"]["id"]))
+        amount = Float(params["params"]["amount"])
+        source = params["params"]["source"]
+        description = params["params"]["description"]
         cwday = Date.parse(date).cwday
         cweek = Date.parse(date).cweek
         cwmonth = cwmonth(Date.parse(date).cweek)
@@ -43,13 +55,13 @@ module Api
 
         if income.save
           render json: {
-            status: 'SUCCESS',
-            message: 'income updated'
+            status: "SUCCESS",
+            message: "income updated",
           }, status: :ok
         else
           render json: {
-            status: 'ERROR',
-            message: 'update error'
+            status: "ERROR",
+            message: "update error",
           }, status: :unprocessible_entity
         end
       end
@@ -57,17 +69,17 @@ module Api
       # DELETE /incomes/1
       # DELETE /incomes/1.json
       def destroy
-        income = Income.destroy(params['id'])
+        income = Income.destroy(params["id"])
 
         if income
           render json: {
-            status: 'SUCCESS',
-            message: 'Income deleted'
+            status: "SUCCESS",
+            message: "Income deleted",
           }, status: :ok
         else
           render json: {
-            status: 'ERROR',
-            message: 'Invalid id'
+            status: "ERROR",
+            message: "Invalid id",
           }, status: 400
         end
       end
