@@ -24,10 +24,6 @@ module Api
         workHour.account_id = Account.where(user_id: User.where(auth_token: params["headers"]["Authorization"]).first.id).first.id
         workHour.amount = params["params"]["amount"]
         workHour.source = params["params"]["source"]
-        workHour.cwday = Date.parse(date).cwday
-        workHour.cweek = Date.parse(date).cweek
-        workHour.cwmonth = cwmonth(Date.parse(date).cweek)
-        workHour.cwyear = Date.parse(date).cwyear
         workHour.date = date[0..9]
 
         if workHour.save
@@ -44,13 +40,9 @@ module Api
         workHour = WorkHour.find(Integer(params["params"]["id"]))
         amount = Float(params["params"]["amount"])
         source = params["params"]["source"]
-        cwday = Date.parse(date).cwday
-        cweek = Date.parse(date).cweek
-        cwmonth = cwmonth(Date.parse(date).cweek)
-        cwyear = Date.parse(date).cwyear
         date = date[0..9]
 
-        workHour.update(amount: amount, source: source, cwday: cwday, cweek: cweek, cwmonth: cwmonth, cwyear: cwyear, date: date)
+        workHour.update(amount: amount, source: source, date: date)
 
         if workHour.save
           render json: {
@@ -92,7 +84,7 @@ module Api
 
       # Never trust parameters from the scary internet, only allow the white list through.
       def workHour_params
-        params.require(:workHour).permit(:account_id, :amount, :source, :cwday, :cweek, :cwmonth, :cwyear, :date)
+        params.require(:workHour).permit(:account_id, :amount, :source, :date)
       end
     end
   end

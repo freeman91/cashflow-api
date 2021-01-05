@@ -25,10 +25,6 @@ module Api
         income.amount = params["params"]["amount"]
         income.source = params["params"]["source"]
         income.description = params["params"]["description"]
-        income.cwday = Date.parse(date).cwday
-        income.cweek = Date.parse(date).cweek
-        income.cwmonth = cwmonth(Date.parse(date).cweek)
-        income.cwyear = Date.parse(date).cwyear
         income.date = date[0..9]
 
         if income.save
@@ -45,13 +41,9 @@ module Api
         amount = Float(params["params"]["amount"])
         source = params["params"]["source"]
         description = params["params"]["description"]
-        cwday = Date.parse(date).cwday
-        cweek = Date.parse(date).cweek
-        cwmonth = cwmonth(Date.parse(date).cweek)
-        cwyear = Date.parse(date).cwyear
         date = date[0..9]
 
-        income.update(amount: amount, source: source, description: description, cwday: cwday, cweek: cweek, cwmonth: cwmonth, cwyear: cwyear, date: date)
+        income.update(amount: amount, source: source, description: description, date: date)
 
         if income.save
           render json: {
@@ -93,7 +85,7 @@ module Api
 
       # Never trust parameters from the scary internet, only allow the white list through.
       def income_params
-        params.require(:income).permit(:account_id, :amount, :source, :vendor, :description, :cwday, :cweek, :cwmonth, :cwyear, :date)
+        params.require(:income).permit(:account_id, :amount, :source, :vendor, :description, :date)
       end
     end
   end

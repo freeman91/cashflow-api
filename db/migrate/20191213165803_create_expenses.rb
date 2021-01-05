@@ -8,11 +8,11 @@ class CreateExpenses < ActiveRecord::Migration[5.1]
       t.string :group, null: false
       t.string :vendor
       t.string :description
-      t.boolean :bill, null: false
+      t.boolean :bill, null: true
       t.integer :cwday, null: true
       t.integer :cweek, null: true
-      t.integer :cwmonth, null: false
-      t.integer :cwyear, null: false
+      t.integer :cwmonth, null: true
+      t.integer :cwyear, null: true
       t.date :date, null: false
 
       t.timestamps

@@ -7,8 +7,8 @@ class CreateDebts < ActiveRecord::Migration[5.1]
       t.float :amount, null: false
       t.string :group, null: false
       t.string :description
-      t.integer :cwmonth, null: false
-      t.integer :cwyear, null: false
+      t.integer :cwmonth, null: true
+      t.integer :cwyear, null: true
       t.date :date, null: false
 
       t.timestamps

@@ -7,13 +7,11 @@ module Api
 
       def create
         property = Property.new
-        date = params['params']['date']
-        property.account_id = Account.where(user_id: User.where(auth_token: params['headers']['Authorization']).first.id).first.id
-        property.amount = params['params']['amount']
-        property.source = params['params']['source']
-        property.description = params['params']['description']
-        property.cwmonth = cwmonth(Date.parse(date).cweek)
-        property.cwyear = Date.parse(date).cwyear
+        date = params["params"]["date"]
+        property.account_id = Account.where(user_id: User.where(auth_token: params["headers"]["Authorization"]).first.id).first.id
+        property.amount = params["params"]["amount"]
+        property.source = params["params"]["source"]
+        property.description = params["params"]["description"]
         property.date = date[0..9]
 
         if property.save
@@ -24,57 +22,55 @@ module Api
       end
 
       def update
-        date = params['params']['date']
-        property = Property.find(Integer(params['params']['id']))
-        amount = Float(params['params']['amount'])
-        source = params['params']['source']
-        description = params['params']['description']
-        cwmonth = cwmonth(Date.parse(date).cweek)
-        cwyear = Date.parse(date).cwyear
+        date = params["params"]["date"]
+        property = Property.find(Integer(params["params"]["id"]))
+        amount = Float(params["params"]["amount"])
+        source = params["params"]["source"]
+        description = params["params"]["description"]
         date = date[0..9]
 
-        property.update(amount: amount, source: source, description: description, cwmonth: cwmonth, cwyear: cwyear, date: date)
+        property.update(amount: amount, source: source, description: description, date: date)
 
         if property.save
           render json: {
-            status: 'Accepted',
-            message: 'property updated'
+            status: "Accepted",
+            message: "property updated",
           }, status: :accepted
         else
           render json: {
-            status: 'ERROR',
-            message: 'update error'
+            status: "ERROR",
+            message: "update error",
           }, status: :unprocessible_entity
         end
       end
 
       def destroy
-        property = Property.destroy(params['id'])
+        property = Property.destroy(params["id"])
 
         if property
           render json: {
-            status: 'Accepted',
-            message: 'Property record deleted'
+            status: "Accepted",
+            message: "Property record deleted",
           }, status: :accepted
         else
           render json: {
-            status: 'ERROR',
-            message: 'Invalid id'
+            status: "ERROR",
+            message: "Invalid id",
           }, status: 400
         end
       end
 
       def month
-        account = Account.where(user_id: User.where(auth_token: params['headers']['Authorization']).first.id).first
-        year = params['params']['year']
-        month = params['params']['month']
+        account = Account.where(user_id: User.where(auth_token: params["headers"]["Authorization"]).first.id).first
+        year = params["params"]["year"]
+        month = params["params"]["month"]
 
-        properties = Property.where(account_id: account.id, cwyear: year, cwmonth: month)
+        properties = Property.where(account_id: account.id, date: Date.new(year, month, 1)..Date.new(year, month, -1))
 
         render json: {
-          status: 'SUCCESS',
-          message: 'Properties Loaded',
-          properties: properties
+          status: "SUCCESS",
+          message: "Properties Loaded",
+          properties: properties,
         }, status: :ok
       end
     end
