@@ -8,32 +8,30 @@ module Api
 
       # GET /expense_groups
       def data
-        account = current_user.accounts.first
-        expense_groups = ExpenseGroup.where(account_id: account.id).order('name ASC').pluck(:name)
+        expense_groups = ExpenseGroup.where(account_id: current_user.accounts.first.id).order("name ASC").pluck(:name)
 
         render json: {
-          status: 'SUCCESS',
-          message: 'Loaded user expense groups',
-          expense_groups: expense_groups
+          status: "SUCCESS",
+          message: "Loaded user expense groups",
+          expense_groups: expense_groups,
         }, status: :ok
       end
 
       def all
-        account = current_user.accounts.first
-        expense_groups = ExpenseGroup.where(account_id: account.id)
+        expense_groups = ExpenseGroup.where(account_id: current_user.accounts.first.id).order("name ASC")
 
         render json: {
-          status: 'SUCCESS',
-          message: 'Loaded user expense groups',
-          expense_groups: expense_groups
+          status: "SUCCESS",
+          message: "Loaded user expense groups",
+          expense_groups: expense_groups,
         }, status: :ok
       end
 
       def create
         new_group = ExpenseGroup.new
-        new_group.account_id = Account.where(user_id: User.where(auth_token: params['headers']['Authorization']).first.id).first.id
-        new_group.name = params['params']['name']
-        new_group.description = params['params']['description']
+        new_group.account_id = Account.where(user_id: User.where(auth_token: params["headers"]["Authorization"]).first.id).first.id
+        new_group.name = params["params"]["name"]
+        new_group.description = params["params"]["description"]
 
         if new_group.save
           render json: new_group, status: :created
@@ -43,37 +41,37 @@ module Api
       end
 
       def update
-        group = ExpenseGroup.find(Integer(params['params']['id']))
-        name = params['params']['name']
-        description = params['params']['description']
+        group = ExpenseGroup.find(Integer(params["params"]["id"]))
+        name = params["params"]["name"]
+        description = params["params"]["description"]
 
         group.update(name: name, description: description)
 
         if group.save
           render json: {
-            status: 'SUCCESS',
-            message: 'Expense Group updated'
+            status: "SUCCESS",
+            message: "Expense Group updated",
           }, status: :ok
         else
           render json: {
-            status: 'ERROR',
-            message: 'update error'
+            status: "ERROR",
+            message: "update error",
           }, status: :unprocessible_entity
         end
       end
 
       def destroy
-        group = ExpenseGroup.destroy(params['id'])
+        group = ExpenseGroup.destroy(params["id"])
 
         if group
           render json: {
-            status: 'SUCCESS',
-            message: 'Expense Group deleted'
+            status: "SUCCESS",
+            message: "Expense Group deleted",
           }, status: :ok
         else
           render json: {
-            status: 'ERROR',
-            message: 'Invalid id'
+            status: "ERROR",
+            message: "Invalid id",
           }, status: 400
         end
       end

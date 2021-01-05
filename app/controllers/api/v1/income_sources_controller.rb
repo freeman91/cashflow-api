@@ -8,32 +8,30 @@ module Api
 
       # GET /income_sources
       def data
-        account = current_user.accounts.first
-        income_sources = IncomeSource.where(account_id: account.id).order('name ASC').pluck(:name)
+        income_sources = IncomeSource.where(account_id: current_user.accounts.first.id).order("name ASC").pluck(:name)
 
         render json: {
-          status: 'SUCCESS',
-          message: 'Loaded user income sources',
-          income_sources: income_sources
+          status: "SUCCESS",
+          message: "Loaded user income sources",
+          income_sources: income_sources,
         }, status: :ok
       end
 
       def all
-        account = current_user.accounts.first
-        income_sources = IncomeSource.where(account_id: account.id)
+        income_sources = IncomeSource.where(account_id: current_user.accounts.first.id).order("name ASC")
 
         render json: {
-          status: 'SUCCESS',
-          message: 'Loaded user income sources',
-          income_sources: income_sources
+          status: "SUCCESS",
+          message: "Loaded user income sources",
+          income_sources: income_sources,
         }, status: :ok
       end
 
       def create
         new_source = IncomeSource.new
-        new_source.account_id = Account.where(user_id: User.where(auth_token: params['headers']['Authorization']).first.id).first.id
-        new_source.name = params['params']['name']
-        new_source.description = params['params']['description']
+        new_source.account_id = Account.where(user_id: User.where(auth_token: params["headers"]["Authorization"]).first.id).first.id
+        new_source.name = params["params"]["name"]
+        new_source.description = params["params"]["description"]
 
         if new_source.save
           render json: new_source, status: :created
@@ -43,37 +41,37 @@ module Api
       end
 
       def update
-        source = IncomeSource.find(Integer(params['params']['id']))
-        name = params['params']['name']
-        description = params['params']['description']
+        source = IncomeSource.find(Integer(params["params"]["id"]))
+        name = params["params"]["name"]
+        description = params["params"]["description"]
 
         source.update(name: name, description: description)
 
         if source.save
           render json: {
-            status: 'SUCCESS',
-            message: 'Income Source updated'
+            status: "SUCCESS",
+            message: "Income Source updated",
           }, status: :ok
         else
           render json: {
-            status: 'ERROR',
-            message: 'update error'
+            status: "ERROR",
+            message: "update error",
           }, status: :unprocessible_entity
         end
       end
 
       def destroy
-        source = IncomeSource.destroy(params['id'])
+        source = IncomeSource.destroy(params["id"])
 
         if source
           render json: {
-            status: 'SUCCESS',
-            message: 'Income Source deleted'
+            status: "SUCCESS",
+            message: "Income Source deleted",
           }, status: :ok
         else
           render json: {
-            status: 'ERROR',
-            message: 'Invalid id'
+            status: "ERROR",
+            message: "Invalid id",
           }, status: 400
         end
       end
