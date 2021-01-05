@@ -35,6 +35,8 @@ Rails.application.routes.draw do
 
       # net worth page
       get "networth/data" => "networth#data"
+      get "networth/properties" => "networth#properties"
+      get "networth/debts" => "networth#debts"
 
       # expenses
       resources :expenses, only: [:create]
