@@ -18,6 +18,11 @@ module Api
         head :no_content
       end
 
+      def destroy
+        current_user.regenerate_auth_token
+        head :no_content
+      end
+
       private
 
       def login_user

@@ -15,6 +15,7 @@ Rails.application.routes.draw do
                                                        default: true) do
       get "versions/state" => "versions#state"
       post "sessions" => "sessions#create"
+      delete "sessions" => "sessions#destroy"
       get "sessions" => "sessions#valid_token"
       post "users/reset_password" => "users#reset_password"
       resources :users, only: %i[create destroy]
