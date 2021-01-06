@@ -1,18 +1,16 @@
-## Dev Env setup
+## Dev Environment setup
 
 ```sh
+# install and start postgres
 brew install postgresql
 sudo brew services start postgres
 pg_ctl -D /usr/local/var/postgres start
+
+# sart mailcatcher
+mailcatcher
 ```
 
-### start mailcatcher server http://127.0.0.1:1080/
-
-```
-$ mailcatcher
-```
-
-## spin up the backend
+## spin up development server
 
 ```
 rails s -p 3001
@@ -20,11 +18,7 @@ rails s -p 3001
 
 ## Jupiter deployment
 
-Clone repo then:
-
 ```
-# install rails gems
-bundle install
 [MacOS error installing puma](https://github.com/puma/puma/issues/2304)
 
 # create postgres user if it doesn't exist
