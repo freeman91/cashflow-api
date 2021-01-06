@@ -3,6 +3,28 @@
 module Api
   module V1
     class DashboardController < ApiController
+      def data
+        groupSums = {}
+
+        expenses = Expense.where(account_id: current_user.accounts.first, date: 90.days.ago..Date.today)
+        income_sum = Income.where(account_id: current_user.accounts.first, date: 90.days.ago..Date.today).sum(:amount)
+        work_hour_sum = WorkHour.where(account_id: current_user.accounts.first, date: 90.days.ago..Date.today).sum(:amount)
+
+        expense_sum = expenses.sum(:amount)
+
+        groups = expenses.pluck("group").uniq
+        groups.each { |group| groupSums[group] = expenses.where(group: group).sum(:amount) }
+
+        render json: {
+          status: "SUCCESS",
+          message: "Loaded dashboard data",
+          data: groupSums,
+          expense_sum: expense_sum,
+          income_sum: income_sum,
+          work_hour_sum: work_hour_sum,
+        }, status: :ok
+      end
+
       def expense_sum
         now = DateTime.now()
         expense_sum = Expense.where(account_id: current_user.accounts.first, date: Date.new(now.year, 1, 1)..Date.today).sum(:amount)
