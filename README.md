@@ -32,7 +32,11 @@ psql
 admin=# CREATE USER cashflow_user WITH PASSWORD 'cashflow_password';
 admin=# ALTER ROLE cashflow_user CREATEROLE CREATEDB;
 
-# create cashflow db
+# install ruby packages
+# need ruby version 2.7.2 (use rvm)
+
+gem install bundler
+bundler install
 rails db:create
 rails db:migrate
 
