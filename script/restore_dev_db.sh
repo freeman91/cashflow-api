@@ -11,8 +11,10 @@ cross="✘"
 
 DB="cashflow_development"
 date=$(date +%Y%m%d)
+# user=$(whoami)
+# ip=$(privateip)
 
-zsh script/kill_servers.sh
+zsh script/kill_server.sh
 if [[ $? -gt 0 ]]; then
     echo -e "${red}\t${cross}Error killing the servers${endColor}"
     exit 1
@@ -20,7 +22,7 @@ fi
 
 echo -en "\t${yellow}=> Retrieving production db snapshot:\n${endColor}"
 ssh admin@192.168.0.42 'bash -s' << 'ENDSSH'
-scp postgres/backups/cashflow_jupiter_$(date +%Y%m%d).bak addisonfreeman@192.168.0.20:/tmp/
+scp postgres/backups/cashflow_jupiter_$(date +%Y%m%d).bak adminisonfreeman@192.168.0.106:/tmp/
 ENDSSH
 
 # Check to see if backup file was created
@@ -53,7 +55,7 @@ if [[ $? -gt 0 ]]; then
     exit 1
 fi
 
-psql -d cashflow_development -U addisonfreeman < /tmp/cashflow_jupiter_$(date +%Y%m%d).bak
+psql -d cashflow_development -U adminisonfreeman < /tmp/cashflow_jupiter_$(date +%Y%m%d).bak
 
 if [ $? -gt 0 ]; then
     echo -e "${red}\t${cross} database restore failed${endColor}"
