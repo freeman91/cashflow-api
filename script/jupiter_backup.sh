@@ -6,7 +6,7 @@
 # -------------------------------------------------------------------------------------------
 #
 # PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/Postgres.app/Contents/Versions/latest/bin
-# 0 3 * * * cd ~/production/cashflow && zsh script/jupiter_backup.sh > /tmp/stdout.log 2> /tmp/stderr.log
+# 0 3 * * * cd ~/production/cashflow-web && zsh script/jupiter_backup.sh > /tmp/stdout.log 2> /tmp/stderr.log
 #
 # -------------------------------------------------------------------------------------------
 

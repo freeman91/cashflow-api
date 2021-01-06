@@ -25,6 +25,7 @@ Clone repo then:
 ```
 # install rails gems
 bundle install
+[MacOS error installing puma](https://github.com/puma/puma/issues/2304)
 
 # create postgres user if it doesn't exist
 psql
