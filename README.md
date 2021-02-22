@@ -21,6 +21,9 @@ rails s -p 3001
 ```
 [MacOS error installing puma](https://github.com/puma/puma/issues/2304)
 
+# If admin db doesn't exist
+createdb
+
 # create postgres user if it doesn't exist
 psql
 admin=# CREATE USER cashflow_user WITH PASSWORD 'cashflow_password';
@@ -40,3 +43,7 @@ psql cashflow_development < cashflow_backup_xxx.bak
 # spin up the backend server
 rails s -p 3001 -d --binding=0.0.0.0
 ```
+
+
+## After restart
+- 
