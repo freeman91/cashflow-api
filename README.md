@@ -55,3 +55,9 @@ createdb cashflow_development
 # restore db from a backup
 psql cashflow_development < cashflow_backup_xxx.bak
 ```
+
+## db_workbench
+
+```sh
+rails runner db_workbench.rb
+```
