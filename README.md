@@ -46,4 +46,12 @@ rails s -p 3001 -d --binding=0.0.0.0
 
 
 ## After restart
-- 
+
+### if data is not up to date
+```sh
+dropdb cashflow_development
+createdb cashflow_development
+
+# restore db from a backup
+psql cashflow_development < cashflow_backup_xxx.bak
+```
