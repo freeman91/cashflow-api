@@ -28,6 +28,7 @@ Rails.application.routes.draw do
       get "dashboard/incomes" => "dashboard#incomes"
       get "dashboard/work_hours" => "dashboard#work_hours"
       get "dashboard/data" => "dashboard#data"
+      get "dashboard/percent_income" => "dashboard#percent_income"
 
       # month page
       get "month/pie-chart" => "month#pie_chart"

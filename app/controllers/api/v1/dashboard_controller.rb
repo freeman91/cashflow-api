@@ -90,6 +90,26 @@ module Api
           workHours: work_hours,
         }, status: :ok
       end
+
+      def percent_income
+        start = params["start"]
+        _end = params["end"]
+        account_id = params["account_id"]
+        expense_sums = {}
+
+        income_sum = Income.where(account_id: account_id, date: start.._end).sum(:amount) 
+        expenses = Expense.where(account_id: account_id, date: start.._end)
+        groups = expenses.pluck(:group).uniq
+
+        groups.sort.each { |group| expense_sums[group] = expenses.where(group: group).sum(:amount).round(2) }
+
+        render json: {
+          status: "SUCCESS",
+          message: "Loaded dashboard percent income data",
+          income_sum: income_sum,
+          expense_sums: expense_sums
+        }
+      end
     end
   end
 end
